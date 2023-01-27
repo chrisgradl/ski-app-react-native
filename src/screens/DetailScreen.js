@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Avatar, Card, Title } from "react-native-paper";
 import { useQuery } from "react-query";
 import { fetchPersonDetail } from "../lib/skiApi";
+import PersonResultGroups from "../components/PersonResultGroups";
 
 export default function DetailScreen({ route }) {
   const { item } = route.params;
@@ -15,14 +16,13 @@ export default function DetailScreen({ route }) {
     fetchPersonDetail(PersonId)
   );
 
-  console.log(data);
-
   return (
-    <ScrollView contentContainerStyle={{ flex: 1, padding: 16 }}>
+    <ScrollView contentContainerStyle={{ padding: 16 }}>
       <View style={{ marginBottom: 16, alignItems: "center" }}>
         <Avatar.Image source={{ uri: data?.PersonImage }} size={200} />
       </View>
-      <Card>
+      <Title>Results</Title>
+      <Card style={{marginBottom: 16}}>
         <Card.Content>
           <Avatar.Image source={{ uri: data?.NationImage }} />
           <Title>Rang: {data?.WcRank}</Title>
@@ -37,6 +37,8 @@ export default function DetailScreen({ route }) {
           <Title>Geboren am: {new Date(data?.BirthDay).toLocaleDateString()}</Title>
         </Card.Content>
       </Card>
+
+      <PersonResultGroups groups={data?.PersonResultGroups}/>
     </ScrollView>
   );
 }
